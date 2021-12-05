@@ -8,7 +8,7 @@ different filtering, including Gaussian filtering, Gaussian Magnitude Filtering,
 showing how different input values are changing the output, to what extent and explain, why.
 
 ## Includes
-The file includes
+The assignment directory includes
 - This readme file `README.md`
 - A PDF report `report.pdf` about our experiments, research questions and conclusions with example images
 - A jupyter notebook `vip2.ipynb` with the code strucered in different parts
