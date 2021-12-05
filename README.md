@@ -1,7 +1,6 @@
 # Vision and Image Processing Assignment 2
 
-## Due to Dec 8th, 2021
-Authors: Tibor Krols, Rachel Rea, Marie Mortensen, Ninell Oldenburg
+Due to Dec 8th, 2021. Authors: Tibor Krols, Rachel Rea, Marie Mortensen, Ninell Oldenburg
 
 ## Description
 This is the second assignment for the class "Vision and Image Processing" at the University of Copenhagen, Department for Computer Science. The assignment is about 
