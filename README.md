@@ -24,4 +24,4 @@ The following packages are used in the code, here provided with link to respecti
 
 ## Start file
 The code should be run from the terminal by running python3 and starting the file. So by opening the terminal and typing `python3 assignment2.py`. 
-Change file input and output path by adding -o "path/to/output" and -i "path/to/input".
+Change file input and output path by adding `-o "path/to/output"` and `-i "path/to/input".
