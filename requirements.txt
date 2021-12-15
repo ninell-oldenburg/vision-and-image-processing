@@ -3,3 +3,5 @@ mayavi
 pyqt5
 pyqt5-qt5
 pyqt5-sip
+skimage
+matplotlib
