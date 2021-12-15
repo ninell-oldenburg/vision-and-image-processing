@@ -3,3 +3,7 @@ mayavi
 pyqt5
 pyqt5-qt5
 pyqt5-sip
+ps_utils
+os
+skimage.io
+matplotlib.pyplot
