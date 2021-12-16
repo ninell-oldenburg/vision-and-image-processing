@@ -16,7 +16,7 @@ The assignment directory includes
 - A directory `utils` with the given image datasets als Matlab files (6 files)
 - A `create_venv.sh` bash command file for the creation of a virtual envirnment, if needed
 - The `guide_venv.md` file explaining how to use and execute `create_venv.sh`
-- The `ps_utils.py` file by François Laude that came with the assignment and handles the functions calls for Photometric Stereo
+- The `ps_utils.py` file by François Lauze that came with the assignment and handles the functions calls for Photometric Stereo
 
 ## Start file
 Make sure to have installed all requirements from the `requirements.txt`. The code should be run from the terminal by running python3 and starting the file. So by 
