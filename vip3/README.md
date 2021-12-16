@@ -9,18 +9,16 @@ Photometric Stereo.
 ## Includes
 The assignment directory includes
 - This readme file `README.md`
+- A `requirements.txt` file with all requirements for this file listed
 - A PDF report `report.pdf` about our experiments, research questions and conclusions with example images
-- A python file `assignment2.py` with the code strucered in different parts
-- 
-
-## Packages
-The following packages are used in the code, here provided with link to respective installation help page.
-- NumPy (https://numpy.org/install/)
-- Matplotlib (https://pypi.org/project/matplotlib/)
-- Skikit-image (https://scikit-image.org/docs/dev/install.html)
-- OpenCV (https://pypi.org/project/opencv-python/)
-- SciPy (https://scipy.org/install/)
+- A python file `main.py` that is to be executed and calls all further exercise parts from the utils directory
+- A directory `include` with the single exercises Python files, "exercise[2,7].py" 
+- A directory `utils` with the given image datasets als Matlab files (6 files)
+- A `create_venv.sh` bash command file for the creation of a virtual envirnment, if needed
+- The `guide_venv.md` file explaining how to use and execute `create_venv.sh`
+- The `ps_utils.py` file by François Laude that came with the assignment and handles the functions calls for Photometric Stereo
 
 ## Start file
-The code should be run from the terminal by running python3 and starting the file. So by opening the terminal and typing `python3 assignment3.py`. 
-Change file input and output path by adding `-o "path/to/output"` and `-i "path/to/input"`.
+Make sure to have installed all requirements from the `requirements.txt`. The code should be run from the terminal by running python3 and starting the file. So by 
+opening the terminal and typing `python3 main.py`. However, if you encounter any problems, try creating a virtual environment and running the code again (see 
+`guide_venv.md`).
