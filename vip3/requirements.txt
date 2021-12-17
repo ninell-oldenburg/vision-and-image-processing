@@ -19,7 +19,6 @@ mayavi==4.7.4
 multidict==5.2.0
 networkx==2.6.3
 numpy==1.21.4
-opencv-python==4.5.4.60
 packaging==21.3
 Pillow==8.4.0
 pyface==7.3.0
