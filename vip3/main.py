@@ -12,7 +12,8 @@ from include import exercise2
 from include import exercise3
 from include import exercise4
 from include import exercise5
-from include import exercise6
+from include import exercise6_1
+from include import exercise6_2
 from include import exercise7
 
 def main():
@@ -21,7 +22,8 @@ def main():
     exercise3
     exercise4
     exercise5
-    exercise6
+    exercise6_1
+    exercise6_2
     exercise7
 
 if __name__ == "__main__":
