@@ -13,7 +13,7 @@ import os
 from skimage.io import imshow
 import numpy as np
 import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # In[12]:
@@ -100,7 +100,7 @@ J.shape
 normal_field = np.zeros((I_face.shape[0], I_face.shape[1],3))
 for i in range(I_face.shape[0]):
     for j in range(I_face.shape[1]):
-        m, inliers, best_fit =utils.ransac_3dvector(data =(I_face[i,j,:],S_face), threshold =10) 
+        m, inliers, best_fit = utils.ransac_3dvector(data =(I_face[i,j,:],S_face), threshold =10) 
         normal_field[i,j] = m
 
 
@@ -116,7 +116,7 @@ n3 = normal_field[:,:,2]
 
 
 z_face = utils.unbiased_integrate(n1,n2,n3, mask_face)
-ps_utils.display_surface(z_face, albedo=None) #show non smoothed normal field
+utils.display_surface(z_face, albedo=None) #show non smoothed normal field
 
 
 # In[16]:

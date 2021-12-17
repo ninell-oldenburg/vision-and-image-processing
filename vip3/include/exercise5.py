@@ -234,7 +234,6 @@ utils.display_surface(z, albedo=albedo_mask)
 
 
 # Smoothing the normal field
-help(utils.smooth_normal_field)
 smoothed_normals = utils.smooth_normal_field(n1, n2, n3, mask)
 
 n1_s , n2_s, n3_s = smoothed_normals
