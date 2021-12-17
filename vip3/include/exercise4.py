@@ -128,87 +128,42 @@ n3[mask!=0] = c3
 # n1, n2, n3: nympy float arrays the 3 components of the normal. They must be 2D arrays
 # Copying the mask
 z = utils.simchony_integrate(n1, n2, n3, mask)
-z_unbiased = utils.unbiased_integrate(n1, n2, n3, mask)
-
-
-# In[18]:
-
-
-# Inspecting the depth map at non-nan places
-z[np.isnan(z)==False]
-z
-
-
-# In[ ]:
-
-
 utils.display_surface(z, albedo=None)
 
 
 # In[ ]:
 
+m = np.zeros((I.shape[0], I.shape[1], 3))
+al = np.zeros((I.shape[0], I.shape[1], 3))
+normals = np.zeros((I.shape[0], I.shape[1], 3))
 
-# ransac = np.ndarray((I.shape[2], mask.sum())) 
-ransac = []
-albedo = []
-normal = []
-# Per row in image
-for i in range(0,I.shape[0]):
-    # Per column in image
-    for j in range(0, I.shape[1]):
-        # If the position in the mask is non-zero
-        # Apply RANSAC to the image pixel(s)
+for i in range(I.shape[0]):
+    for j in range(I.shape[1]):
         if mask[i,j]!=0:
-            m, inliers, best_fit = utils.ransac_3dvector(data=(I[i,j,:], S), threshold = 1.0)
-            p = np.linalg.norm(m)
-            n = (1/ np.linalg.norm(m))*m
-            
-            albedo.append(p)
-            ransac.append(m)
-            normal.append(n)
-            
-normal = np.array(normal).reshape(3, 24828)           
-ransac = np.array(ransac).reshape(3, 24828)
-albedo = np.array(albedo)
+            model, inliers, best_fit = utils.ransac_3dvector(data=(I[i,j,:], S), threshold = 50.0)
+            if np.linalg.norm(model)!=0:
+                m[i,j] = model 
+                al[i,j] = (np.linalg.norm(model))
+                normal = (1 /  np.linalg.norm(model)) * model
 
+                normals[i,j] = normal
+                
+                
+n1 = normals[:,:,0]
+n2 = normals[:,:,1]
+n3 = normals[:,:,2]
 
-# In[ ]:
-
-
-c1, c2, c3 = normal
-
-n1 = np.zeros(mask.shape)
-n1[mask!=0] = c1
-
-n2 = np.zeros(mask.shape)
-n2[mask!=0] = c2
-
-n3 = np.zeros(mask.shape)
-n3[mask!=0] = c3
-
-
-# In[ ]:
-
-
-# n1, n2, n3: nympy float arrays the 3 components of the normal. They must be 2D arrays
-# Copying the mask
 z = utils.simchony_integrate(n1, n2, n3, mask)
-# z_unbiased = utils.unbiased_integrate(n1, n2, n3, mask)
+utils.display_surface(z, albedo=None)               
+                
+smoothed = utils.smooth_normal_field(n1, n2, n3, mask)
+n1_s , n2_s, n3_s = smoothed
 
-
-# In[ ]:
-
-
-z[np.isnan(z)==False]
-
-
-# In[ ]:
-
-
+z = utils.simchony_integrate(n1_s , n2_s, n3_s, mask)
 utils.display_surface(z, albedo=None)
 
 
-# In[ ]:
+utils.display_surface(z, albedo=None)
 
 
 # help(utils.smooth_normal_field)
@@ -217,14 +172,8 @@ smoothed_normals = utils.smooth_normal_field(n1, n2, n3, mask, iters=1000)
 n1_s , n2_s, n3_s = smoothed_normals
 
 
-# In[ ]:
-
-
 z = utils.simchony_integrate(n1_s, n2_s, n3_s, mask)
 utils.display_surface(z, mask)
-
-
-# In[ ]:
 
 
 
