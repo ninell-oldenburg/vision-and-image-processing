@@ -20,7 +20,6 @@
 
 import os
 import numpy as np
-import cv2
 import ps_utils as utils
 import skimage
 import matplotlib.pyplot as plt
