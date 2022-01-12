@@ -53,11 +53,13 @@ from sklearn.cluster import KMeans
 
 class Cbir:
 
-    def __init__(self, folder="101_ObjectCategories", categories=5, k_val=200):
+    def __init__(self, folder="101_ObjectCategories", categories=5, k_val=200, only_train=False):
         self.folder = folder
         self.categories = categories
         self.k_val = k_val
         self.all_images, self.order, self.all_filenames = self.load_images()
+        self.only_train = only_train
+        self.desc = 0
 
         # Empty list for the bag of words / histograms
         self.bow_train = []
@@ -183,10 +185,12 @@ class Cbir:
 
         # Normalize (by standard deviation)
         whitened = whiten(descriptors)
+        self.desc = len(whitened)
 
         # ensure we don't have more categories than descriptors
         if self.k_val > len(whitened):
-            self.k_val = len(whitened)-1
+            self.k_val = len(whitened)
+
 
         # create codebook
         codebook, distortion = kmeans(whitened, self.k_val, seed=2022)
@@ -328,10 +332,14 @@ class Cbir:
 
         match_top3, match, rank = [], [], []
 
+        test_set = self.bow_test
+        if self.only_train:
+            test_set = self.bow_train
+
         # iter over dataframe to fill it
         for index, dist_meas in enumerate(acc):
 
-            for idx, test_hist in enumerate(self.bow_test):
+            for idx, test_hist in enumerate(test_set):
                 # Distances
                 true_cat = test_hist[1]
 
@@ -366,12 +374,14 @@ class Cbir:
                 match.append(true_cat == predicted_cat)
                 match_top3.append(true_cat in top3)
 
-            dist_meas[0] = sum(match_top3)/self.bow_test.shape[0]
-            dist_meas[1] = sum(match)/self.bow_test.shape[0]
+            dist_meas[0] = sum(match_top3)/test_set.shape[0]
+            dist_meas[1] = sum(match)/test_set.shape[0]
             dist_meas[2] = np.mean(rank)
 
             # empty temp lists
             match_top3, match, rank = [], [], []
+
+        acc.append([self.desc, self.desc, self.desc])
 
         end = time.time()
         return acc, (end-start)
@@ -383,20 +393,38 @@ class Cbir:
 
         # create dataframe, save computation time
         data, time = self.write_df()
-        result = pd.DataFrame(data, index=['euclidean', 'bhat', 'common_words', 'tf_idf'],
+        test_or_train = ''
+        if self.only_train:
+            test_or_train = 'train'
+        else:
+            test_or_train = 'test'
+        result = pd.DataFrame(data, index=['euclidean', 'bhat', 'common_words', 'tf_idf', 'features'],
                               columns=['top3', 'match', 'rank'])
-        info_str = 'Accuracy for {} train images, {} test images, {} categories, kmeans with k={}.' \
-                   '\n Computation time: {} \n'.format(len(self.bow_train), len(self.bow_test), self.categories,
+        info_str = 'Accuracy for {} train images, {} test images from {} set, {} categories, kmeans with k={}.' \
+                   'Computation time: {}'.format(len(self.bow_train), len(self.bow_test), test_or_train, self.categories,
                                                    self.k_val, datetime.timedelta(seconds=round(time, 2)))
         return info_str, result
 
 
 if __name__=='__main__':
     # i == number of categories
-    for i in range(1,20,5):
+    nlist = [1, 5, 20]
+    klist = [200, 500, 2000]
+
+    # try retrieval of only train images
+    for i in nlist:
         # k == number of k features
-        for k in range(200, 1000, 200):
-            cbir = Cbir("101_ObjectCategories",i, k)
+        for k in klist:
+            cbir = Cbir("101_ObjectCategories",i, k, True)
+            # uncomment following line to see example pictures
+            # cbir.example_cal(random.randint(0, len(cbir.bow_test)-1))
+            print(cbir.main())
+
+    # do same process for only test images
+    for i in nlist:
+        # k == number of k features
+        for k in klist:
+            cbir = Cbir("101_ObjectCategories",i, k, False)
             # uncomment following line to see example pictures
             # cbir.example_cal(random.randint(0, len(cbir.bow_test)-1))
             print(cbir.main())
